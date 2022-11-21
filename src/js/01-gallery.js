@@ -1,32 +1,25 @@
 import { galleryItems } from './gallery-items';
-import 'simplelightbox';
+import SimpleLightbox from 'simplelightbox';
+import templateFunction from '../templates/gallery-items.hbs';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import 'lazysizes';
 import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 
 const gallery = document.querySelector('.gallery');
-
-const newGallery = items => {
-  return galleryItems
-    .map(
-      ({ original, preview, description }) =>
-        `<li>
-              <a class="gallery__item" href=${original}>
-              <img class="gallery__image lazyload" data-src=${preview} alt="${description}" loading="lazy"/>
-              </a>
-          </li>`
-    )
-    .join('');
-};
-
-gallery.style.listStyle = 'none';
-gallery.innerHTML = newGallery(galleryItems);
-
+// ======import from folder templates
+function createMarkup() {
+  const itemMarkup = galleryItems.map(templateFunction).join('');
+  gallery.insertAdjacentHTML('beforeend', itemMarkup);
+  gallery.style.listStyle = 'none';
+}
+createMarkup();
+// =======librarry  SimpleLightbox
 new SimpleLightbox('.gallery a', {
+  captions: true,
   captionsData: 'alt',
+  captionDelay: 250,
 });
-console.log(gallery);
-
+// =========lazyload
 const lazyLoad = document.querySelectorAll('img[loading="lazy"]');
 lazyLoad.forEach(image => {
   image.addEventListener('load', omImageLoadet, { once: true });
@@ -35,21 +28,3 @@ lazyLoad.forEach(image => {
 function omImageLoadet() {
   event.target.classList.add('appaer');
 }
-
-// import { galleryItems } from './gallery-items';
-// import SimpleLightbox from 'simplelightbox';
-// import templateFunction from '../templates/gallery-items.hbs';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
-
-// const gallery = document.querySelector('.gallery');
-
-// (function createMarkup() {
-//   const itemMarkup = galleryItems.map(templateFunction).join('');
-//   gallery.insertAdjacentHTML('beforeend', itemMarkup);
-// })();
-
-// new SimpleLightbox('.gallery a', {
-//   captions: true,
-//   captionsData: 'alt',
-//   captionDelay: 250,
-// });
