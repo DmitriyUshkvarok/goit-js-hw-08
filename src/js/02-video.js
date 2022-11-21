@@ -20,8 +20,6 @@ import throttle from 'lodash.throttle';
 const player = new Player(document.querySelector('#vimeo-player'));
 const LOCALSTORAGE_KEY = 'videoplayer-current-time';
 
-// const stopwatchSecond = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY));
-
 player
   .setCurrentTime(JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY)))
   .then(function (seconds) {})
